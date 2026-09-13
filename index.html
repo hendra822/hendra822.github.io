@@ -1,273 +1,222 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Profile - InnovateTech</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyrics to ASCII Art</title>
+  <style>
+    :root {
+      --color-primary: #ee75d2;
+      --color-secondary: #75d8ee;
+      --color-tertiary: #deee75;
+      --color-quaternary: #9375ee;
+      --color-surface: #271c22;
+      --brightness: 1.4;
+      font-size: 80%;
+    }
 
-        :root {
-            --blue-primary: #1e3c72;
-            --blue-light: #2a5298;
-            --red-primary: #e52d27;
-            --red-light: #b31217;
-            --gradient-main: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #e52d27 100%);
-            --text-dark: #222;
-            --text-light: #f4f4f9;
-        }
+    body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #000000;
+      color: var(--color-primary);
+      overflow: hidden;
+    }
 
-        body {
-            color: var(--text-dark);
-            line-height: 1.6;
-            background-color: #f9f9fc;
-        }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 8%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+    #output {
+      position: relative;
+      text-align: center;
+      font-family: "SF Mono", monospace;
+      overflow: hidden;
+      filter: drop-shadow(
+          0 0 7rem color-mix(in srgb, var(--color), transparent 20%)
+        )
+        brightness(var(--brightness));
+      white-space: nowrap;
+      background: black;
+      font-size: 12px;
+      line-height: 1;
+    }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    #prerender {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--red-primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: var(--gradient-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--text-light);
-            padding: 0 20px;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 32px;
-            background: #ffffff;
-            color: var(--blue-primary);
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        /* Section Global */
-        section {
-            padding: 100px 8%;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--gradient-main);
-            margin: 10px auto 0;
-            border-radius: 2px;
-        }
-
-        /* Services Section */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .service-card {
-            background: #ffffff;
-            padding: 40px 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-top: 4px solid transparent;
-            border-image: var(--gradient-main) 1;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        }
-
-        .service-card h3 {
-            margin-bottom: 15px;
-            color: var(--blue-primary);
-        }
-
-        /* About Section */
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-            flex-wrap: wrap;
-        }
-
-        .about-text {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .about-box {
-            flex: 1;
-            min-width: 300px;
-            height: 300px;
-            background: var(--gradient-main);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 700;
-            box-shadow: 0 15px 30px rgba(229, 45, 39, 0.2);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--blue-primary);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .nav-links {
-                display: none;
-            }
-        }
-    </style>
+    * {
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
-    <nav>
-        <div class="logo">INNOVATETECH</div>
-        <ul class="nav-links">
-            <li><a href="#home">Beranda</a></li>
-            <li><a href="#about">Tentang Kami</a></li>
-            <li><a href="#services">Layanan</a></li>
-            <li><a href="#contact">Kontak</a></li>
-        </ul>
-    </nav>
+<div class="container">
+  <div id="output"></div>
+</div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Solusi Digital Masa Depan Bisnis Anda</h1>
-            <p>Kami menghadirkan inovasi teknologi berkinerja tinggi dengan integritas dan dedikasi penuh untuk pertumbuhan perusahaan Anda.</p>
-            <a href="#services" class="btn">Jelajahi Layanan</a>
-        </div>
-    </section>
+<canvas id="prerender" width="150" height="50"></canvas>
 
-    <!-- About Section -->
-    <section id="about">
-        <h2 class="section-title">Tentang Kami</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p>INNOVATETECH adalah penyedia solusi teknologi terdepan yang berfokus pada transformasi digital dan efisiensi sistem. Berdiri sejak tahun 2020, kami telah membantu ratusan klien mencapai potensi maksimal bisnis mereka melalui pengembangan perangkat lunak dan strategi teknologi masa kini.</p>
-            </div>
-            <div class="about-box">
-                Inovasi Tanpa Batas
-            </div>
-        </div>
-    </section>
+<script>
+  (() => {
+    const config = {
+      lyrics: [
+        { text: "Do you think",       showMs: 2000, hideMs: 500 },
+        { text: "I have forgotten",   showMs: 3500, hideMs: 1000 },
+        { text: "About you?",         showMs: 4000, hideMs: 1500 },
+        { text: "There was something",showMs: 2500, hideMs: 400 },
+        { text: "'bout you",          showMs: 2000, hideMs: 800 },
+        { text: "That now I can't remember", showMs: 3500, hideMs: 2000 } 
+      ],
+      isLooping: true,      
+      maxColorIndex: 700    
+    };
 
-    <!-- Services Section -->
-    <section id="services">
-        <h2 class="section-title">Layanan Utama</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>Pengembangan Web & Aplikasi</h3>
-                <p>Membangun platform digital yang responsif, cepat, dan modern sesuai dengan kebutuhan skala bisnis Anda.</p>
-            </div>
-            <div class="service-card">
-                <h3>Pemasaran Digital</h3>
-                <p>Memperluas jangkauan pasar dan meningkatkan brand awareness melalui strategi media sosial yang tepat sasaran.</p>
-            </div>
-            <div class="service-card">
-                <h3>Konsultasi IT</h3>
-                <p>Memberikan petunjuk dan perencanaan infrastruktur teknologi terbaik untuk efisiensi operasional.</p>
-            </div>
-        </div>
-    </section>
+    const canvas = document.getElementById("prerender");
+    const output = document.getElementById("output");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
-    <!-- Footer -->
-    <footer id="contact">
-        <p>&copy; 2026 INNOVATETECH. All Rights Reserved.</p>
-    </footer>
+    const charsFixed = [
+      "_", ".", ",", "-", "=", "+", "i", "s", "c", "b", "a", "!", "?",
+      "0", "1", "2", "3", "4", "5", "6",
+      ["9", "8"],
+      ["✚", "✚", "✚", "✚", "✚", "⚛︎"],
+      ["☺︎", "☹︎"],
+      "☀︎",
+      ["@", "#"],
+      ["X", "Y", "Z"],
+      "'"
+    ];
+
+    let chars = [...charsFixed];
+    let charsLength = chars.length;
+    
+    let currentLyricIndex = 0;
+    let lastTime = 0;
+    let timeAccumulator = 0;
+    let isShowing = true;
+
+    const drawTextToCanvas = (time) => {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, w, h);
+
+      if (!isShowing) return; 
+
+      const currentText = config.lyrics[currentLyricIndex].text;
+
+      ctx.fillStyle = "white"; 
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      
+      const fontSize = 14; 
+      ctx.font = `900 ${fontSize}px "Arial Black", Impact, sans-serif`;
+      
+      const words = currentText.split(" ");
+      let lines = [];
+      let currentLine = words[0] || "";
+
+      for (let i = 1; i < words.length; i++) {
+        let word = words[i];
+        let width = ctx.measureText(currentLine + " " + word).width;
+        if (width < w - 10) { 
+          currentLine += " " + word;
+        } else {
+          lines.push(currentLine);
+          currentLine = word;
+        }
+      }
+      lines.push(currentLine);
+
+      const lineHeight = fontSize + 2; 
+      const totalHeight = lines.length * lineHeight;
+      
+      let startY = (h / 2) - (totalHeight / 2) + (lineHeight / 2);
+
+      for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], w / 2, startY + (i * lineHeight));
+      }
+    };
+
+    const updateASCII = (time) => {
+      if (lastTime === 0) lastTime = time;
+      const deltaTime = time - lastTime;
+      lastTime = time;
+      timeAccumulator += deltaTime;
+
+      const currentLyric = config.lyrics[currentLyricIndex];
+      const currentPhaseDuration = isShowing ? currentLyric.showMs : currentLyric.hideMs;
+
+      if (timeAccumulator > currentPhaseDuration) {
+        timeAccumulator = 0;
+        if (isShowing) {
+          isShowing = false;
+        } else {
+          isShowing = true;
+          currentLyricIndex++;
+          if (currentLyricIndex >= config.lyrics.length) {
+            currentLyricIndex = config.isLooping ? 0 : config.lyrics.length - 1;
+          }
+        }
+      }
+
+      drawTextToCanvas(time);
+
+      const w = canvas.width;
+      const h = canvas.height;
+      const data = ctx.getImageData(0, 0, w, h).data;
+
+      let outputText = "";
+      
+      for (let y = 0; y < h; y++) {
+        let row = "";
+        for (let x = 0; x < w; x++) {
+          const index = (x + y * w) * 4;
+          const r = data[index];
+          const g = data[index + 1];
+          const b = data[index + 2];
+          
+          const c = (r + g + b) / 3;
+
+          const charIndex = Math.floor(
+            (charsLength * ((c * 100) / config.maxColorIndex)) / 100
+          );
+          
+          const safeCharIndex = Math.min(Math.max(charIndex, 0), charsLength - 1);
+          const result = chars[safeCharIndex];
+          
+          const char = Array.isArray(result)
+            ? result[Math.floor(Math.random() * result.length)]
+            : result;
+
+          row += `<span style="color: rgb(${r}, ${g}, ${b});">${char ?? "&nbsp;"}</span>`;
+        }
+        outputText += `<div>${row}</div>`;
+      }
+
+      output.innerHTML = outputText;
+      output.style.setProperty("--color", `rgb(${data[0]}, ${data[1]}, ${data[2]})`);
+
+      requestAnimationFrame(updateASCII);
+    };
+
+    requestAnimationFrame(updateASCII);
+  })();
+</script>
 
 </body>
 </html>
